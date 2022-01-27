@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
 function App() {
+  const [task, setTask] = useState<Array<string>>([""]);
+  const [value, setValue] = useState<string>('');
+
+  const addTask = () => {
+    setTask([...task, value]);
+    setValue("");
+  };
+
+  const valueHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
+  console.log(task);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input onChange={valueHandler} type="text" />
+      <button onClick={addTask}>add task</button>
+      <ul>
+        {task.map((taskItem, i) => (
+          <li style={ { listStyle: "none" } }key={i}>{taskItem.length > 0 ? `${i} - ${taskItem}` : ""}</li>
+        ))}
+      </ul>
     </div>
   );
 }
